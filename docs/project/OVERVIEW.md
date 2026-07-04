@@ -10,7 +10,8 @@ A premium 3D star that lives on your screen — on desktop, mobile, and TV. A ce
 - Click-through mode, immersive mode
 - Theme system, wireframe toggle, auto-rotate
 - Window dragging, minimize/maximize/close
-- Performance: 30fps throttle, pause on blur, adaptive quality
+- Performance: 30fps throttle, pause on blur, adaptive quality, idle detection
+- PowerManager: battery monitoring, frame-time tracking, auto-disable glow on low power
 
 ## Target Platforms (Roadmap)
 | Platform | Status |

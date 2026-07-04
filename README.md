@@ -138,3 +138,13 @@ pnpm lint          # ESLint
 pnpm format        # Prettier
 pnpm clean         # Remove dist/ and target/
 ```
+
+## Project Documentation
+
+See the [docs/](./docs/) directory for structured project documentation:
+- [Project Overview](./docs/project/OVERVIEW.md)
+- [Roadmap](./docs/project/ROADMAP.md)
+- [Architecture Decisions](./docs/architecture/)
+- [Meeting Notes](./docs/meetings/)
+- [Sprint Progress](./docs/sprints/current/)
+- [Pending Decisions](./docs/decisions/un-reviewed/)

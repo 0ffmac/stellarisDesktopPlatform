@@ -60,6 +60,7 @@ setMode: async (mode) => {
 | `QualityManager` | Singleton | GPU auto-detection and quality preset selection |
 | `AnimationController` | Singleton | Keyframe-based animation engine using `requestAnimationFrame` |
 | `IdleAnimation` | Instance | Star floating/rotation idle animation using `AnimationController` |
+| `PowerManager` | Singleton | Battery monitoring, frame-time tracking, adaptive quality control |
 
 ### Event Bus Events
 
@@ -136,7 +137,9 @@ Permissions granted:
 R3F Canvas (frameloop="demand")
     │
     ├── FpsThrottle
-    │     ├── setInterval(invalidate, 33ms)  →  ~30fps
+    │     ├── setInterval(invalidate, 33ms)  →  ~30fps (active)
+    │     ├── 30s idle → 66ms (15fps)
+    │     ├── Low power → 66ms (15fps) + disable glow
     │     ├── Pauses on blur/visibilitychange →  0fps
     │     └── Resumes on focus               →  ~30fps
     │
@@ -174,6 +177,9 @@ The star mesh renders a GLTF model with a PBR material:
 | Strategy | Implementation |
 |---|---|
 | Framerate cap | `frameloop="demand"` + `setInterval(invalidate, 33)` = ~30fps |
+| Idle framerate drop | 30s no interaction → 15fps, any activity restores 30fps |
+| Low-power mode | Battery <20% + not charging → 15fps + disable glow |
+| Frame-time tracking | 30-frame sliding window; sustained >50ms triggers low-power mode |
 | Pause on hidden | `blur`/`visibilitychange` → stop `setInterval` → 0 renders |
 | Resolution scaling | `dpr={[1, 2]}` — adapts to device pixel ratio (1x–2x) |
 | No post-processing | `PostProcessing` returns `null` |

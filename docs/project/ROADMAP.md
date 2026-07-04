@@ -12,11 +12,11 @@
 - [x] Performance: frameloop=demand, 30fps, pause on blur
 - [x] Adaptive quality + idle detection (PowerManager)
 
-## Phase 2 — Cross-Platform
-- [ ] TV Christmas page (standalone HTML, embedded Three.js)
-- [ ] iPhone PWA (offline star, add to home screen)
-- [ ] Android floating overlay (React Native + expo-gl)
-- [ ] Windows/Linux desktop build testing
+## Phase 2 — Cross-Platform (Awaiting Client Decision)
+- [ ] 📅 TV Christmas page (standalone HTML, embedded Three.js)
+- [ ] 📅 iPhone PWA (offline star, add to home screen)
+- [ ] 📅 Android floating overlay (React Native + expo-gl)
+- [ ] 📅 Windows/Linux desktop build testing
 
 ## Phase 3 — Polish
 - [ ] Music-reactive pulsing
@@ -24,3 +24,5 @@
 - [ ] Multiple stars / constellations
 - [ ] Settings panel with all options
 - [ ] Auto-update mechanism
+
+> See `docs/decisions/un-reviewed/001-platform-expansion.md` for full options analysis.
