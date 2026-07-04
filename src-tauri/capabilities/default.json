@@ -1,0 +1,49 @@
+{
+  "identifier": "default",
+  "description": "Default capabilities for Stellaris Desktop",
+  "windows": ["main"],
+  "permissions": [
+    "core:default",
+    "core:window:default",
+    "core:window:allow-set-ignore-cursor-events",
+    "core:window:allow-set-always-on-top",
+    "core:window:allow-set-focus",
+    "core:window:allow-show",
+    "core:window:allow-hide",
+    "core:window:allow-close",
+    "core:tray:default",
+    "store:default",
+    "store:allow-get",
+    "store:allow-set",
+    "store:allow-save",
+    "store:allow-load",
+    {
+      "identifier": "core:window:allow-set-size",
+      "windows": ["main"]
+    },
+    {
+      "identifier": "core:window:allow-set-position",
+      "windows": ["main"]
+    },
+    {
+      "identifier": "core:window:allow-maximize",
+      "windows": ["main"]
+    },
+    {
+      "identifier": "core:window:allow-unmaximize",
+      "windows": ["main"]
+    },
+    {
+      "identifier": "core:window:allow-is-maximized",
+      "windows": ["main"]
+    },
+    {
+      "identifier": "core:window:allow-minimize",
+      "windows": ["main"]
+    },
+    {
+      "identifier": "core:window:allow-unminimize",
+      "windows": ["main"]
+    }
+  ]
+}
