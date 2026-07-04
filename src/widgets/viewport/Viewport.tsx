@@ -4,34 +4,83 @@ import { Scene } from './Scene';
 import { useStarStore } from '../../stores/useStarStore';
 import { useUIStore } from '../../stores/useUIStore';
 import { useDesktopStore } from '../../stores/useDesktopStore';
+import { powerManager, LOW_POWER_FRAMERATE_MS } from '../../core/performance/PowerManager';
 
+
+const IDLE_TIMEOUT_MS = 30_000;
 
 function FpsThrottle() {
   const { invalidate } = useThree();
   const visible = useRef(true);
+  const lastActivity = useRef(performance.now());
+  const lowPower = useRef(false);
+  const glowDisabled = useRef(false);
+  const timerRef = useRef<ReturnType<typeof setInterval> | undefined>(undefined);
 
   useEffect(() => {
+    powerManager.init();
+
+    const unsubPower = powerManager.onBatteryChange(() => {
+      lowPower.current = powerManager.state.isLowPower;
+      if (powerManager.state.isLowPower && !glowDisabled.current) {
+        glowDisabled.current = true;
+        useStarStore.getState().setGlowEnabled(false);
+      }
+    });
+    if (powerManager.state.isLowPower && !glowDisabled.current) {
+      glowDisabled.current = true;
+      useStarStore.getState().setGlowEnabled(false);
+    }
+
+    const schedule = () => {
+      if (timerRef.current) clearInterval(timerRef.current);
+      const isIdle = performance.now() - lastActivity.current > IDLE_TIMEOUT_MS;
+      const interval = lowPower.current || isIdle ? LOW_POWER_FRAMERATE_MS : 33;
+      timerRef.current = setInterval(() => {
+        if (!visible.current) return;
+        const start = performance.now();
+        invalidate();
+        powerManager.recordFrame(performance.now() - start);
+      }, interval);
+    };
+
+    const onActivity = () => {
+      lastActivity.current = performance.now();
+      if (!lowPower.current) schedule();
+    };
     const onVisibility = () => {
       visible.current = !document.hidden;
       if (document.hidden) return;
+      lastActivity.current = performance.now();
       invalidate();
+      schedule();
     };
     const onBlur = () => { visible.current = false; };
-    const onFocus = () => { visible.current = true; invalidate(); };
+    const onFocus = () => {
+      visible.current = true;
+      lastActivity.current = performance.now();
+      invalidate();
+      schedule();
+    };
 
     document.addEventListener('visibilitychange', onVisibility);
     window.addEventListener('blur', onBlur);
     window.addEventListener('focus', onFocus);
+    window.addEventListener('pointerdown', onActivity);
+    window.addEventListener('pointermove', onActivity);
+    window.addEventListener('keydown', onActivity);
 
-    const id = setInterval(() => {
-      if (visible.current) invalidate();
-    }, 33);
+    schedule();
 
     return () => {
-      clearInterval(id);
+      if (timerRef.current) clearInterval(timerRef.current);
+      unsubPower();
       document.removeEventListener('visibilitychange', onVisibility);
       window.removeEventListener('blur', onBlur);
       window.removeEventListener('focus', onFocus);
+      window.removeEventListener('pointerdown', onActivity);
+      window.removeEventListener('pointermove', onActivity);
+      window.removeEventListener('keydown', onActivity);
     };
   }, [invalidate]);
 

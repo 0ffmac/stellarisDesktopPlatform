@@ -19,6 +19,7 @@ export interface EventMap {
   'renderer:frame': number;
   'renderer:quality-change': string;
   'renderer:resize': { width: number; height: number };
+  'renderer:power-change': 'low' | 'normal';
   'star:loaded': void;
   'star:interaction-start': void;
   'star:interaction-end': void;
