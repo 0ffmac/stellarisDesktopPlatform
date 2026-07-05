@@ -7,6 +7,7 @@
     "dev": "tauri dev",
     "vite": "vite",
     "build": "tsc --noEmit && vite build",
+    "dist": "pnpm build && pnpm tauri build && plutil -replace LSUIElement -bool YES \"$(ls -d src-tauri/target/release/bundle/macos/*.app)/Contents/Info.plist\"",
     "preview": "vite preview",
     "tauri": "tauri",
     "lint": "eslint src/ --ext .ts,.tsx",

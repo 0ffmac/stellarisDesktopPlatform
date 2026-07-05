@@ -24,3 +24,4 @@
 | 14 | Performance: frameloop=demand, 30fps throttle, pause on blur | M | ✅ |
 | 15 | Adaptive quality + idle detection (PowerManager) | M | ✅ |
 | 16 | Documentation: README, TECHNICAL, GUIDE | S | ✅ |
+| 17 | macOS background widget mode (LSUIElement, no Dock, close-to-tray) | S | ✅ |
